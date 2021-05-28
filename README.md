@@ -2,7 +2,7 @@
 
 FraudLabs Pro SMS Verification helps you to verify the user's mobile phone number by using the SMS verification technology. It triggers SMS verification based on the FraudLabs Pro status that you configured which will happen after the checkout process. The system will send a SMS message containing the OTP (One-Time-Passcode) to the given mobile phone number. And, the buyer is required to enter the correct OTP into the web page for verification. This SMS verification is an effective method to authenticate the buyer's identity as the phone number is a strong identier that is very difficult to temper with.
 
-Please note that you have to install [latest **FraudLabs Pro**](https://github.com/fraudlabspro/prestashop/releases/latest module before enabling this module.
+Please note that you have to install [latest **FraudLabs Pro**](https://github.com/fraudlabspro/prestashop/releases/latest) module before enabling this module.
 
 ### Easy to setup
 
