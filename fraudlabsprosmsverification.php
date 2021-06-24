@@ -114,6 +114,10 @@ class fraudlabsprosmsverification extends Module
 			'sms_instruction' => (Configuration::get('FLP_SMS_VERIFICATION_INST')) ? Configuration::get('FLP_SMS_VERIFICATION_INST') : 'Please verify your phone number by completing the below SMS verification. Please enter your phone number (with country code) to receive the OTP message.',
 			'sms_cc' => $countries[Configuration::get('FLP_SMS_DEFAULT_CC')],
 			'sms_order_id' => $params['order']->id,
+			'sms_msg_otp_success' => (Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')) ? Configuration::get('FLP_SMS_MSG_OTP_SUCCESS') : 'A SMS containing the OTP (One Time Passcode) has been sent to [phone]. Please enter the 6 digits OTP value to complete the verification.',
+			'sms_msg_otp_fail' => (Configuration::get('FLP_SMS_MSG_OTP_FAIL')) ? Configuration::get('FLP_SMS_MSG_OTP_FAIL') : 'Error: Unable to send the SMS verification message to [phone].',
+			'sms_msg_invalid_phone' => (Configuration::get('FLP_SMS_MSG_INVALID_PHONE')) ? Configuration::get('FLP_SMS_MSG_INVALID_PHONE') : 'Please enter a valid phone number.',
+			'sms_msg_invalid_otp' => (Configuration::get('FLP_SMS_MSG_INVALID_OTP')) ? Configuration::get('FLP_SMS_MSG_INVALID_OTP') : 'Error: Invalid OTP. Please enter the correct OTP.',
 		]);
 
 		return $this->display(__FILE__, 'order_confirm.tpl');
@@ -229,6 +233,34 @@ class fraudlabsprosmsverification extends Module
 							'name'  => 'name',
 						],
 					],
+					[
+						'type'     => 'textarea',
+						'label'    => $this->l('OTP Sent Succesfully Message'),
+						'name'     => 'FLP_SMS_MSG_OTP_SUCCESS',
+						'desc'     => $this->l('Messages to show the user when the OTP is sent successfully to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
+						'required' => false,
+					],
+					[
+						'type'     => 'textarea',
+						'label'    => $this->l('OTP Sent Failed Message'),
+						'name'     => 'FLP_SMS_MSG_OTP_FAIL',
+						'desc'     => $this->l('Messages to show the user when the OTP is sent failed to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
+						'required' => false,
+					],
+					[
+						'type'     => 'textarea',
+						'label'    => $this->l('Invalid Phone Number Message'),
+						'name'     => 'FLP_SMS_MSG_INVALID_PHONE',
+						'desc'     => $this->l('Messages to show the user when invalid phone number is entered.'),
+						'required' => false,
+					],
+					[
+						'type'     => 'textarea',
+						'label'    => $this->l('Invalid OTP Message'),
+						'name'     => 'FLP_SMS_MSG_INVALID_OTP',
+						'desc'     => $this->l('Messages to show the user when invalid OTP is entered.'),
+						'required' => false,
+					],
 				],
 				'submit' => [
 					'title' => $this->l('Save'),
@@ -269,6 +301,10 @@ class fraudlabsprosmsverification extends Module
 			'FLP_SMS_MSG_CONTENT'         => Tools::getValue('FLP_SMS_MSG_CONTENT', Configuration::get('FLP_SMS_MSG_CONTENT')),
 			'FLP_SMS_OTP_TIMEOUT'         => Tools::getValue('FLP_SMS_OTP_TIMEOUT', Configuration::get('FLP_SMS_OTP_TIMEOUT')),
 			'FLP_SMS_DEFAULT_CC'          => Tools::getValue('FLP_SMS_DEFAULT_CC', Configuration::get('FLP_SMS_DEFAULT_CC')),
+			'FLP_SMS_MSG_OTP_SUCCESS'     => Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS', Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')),
+			'FLP_SMS_MSG_OTP_FAIL'        => Tools::getValue('FLP_SMS_MSG_OTP_FAIL', Configuration::get('FLP_SMS_MSG_OTP_FAIL')),
+			'FLP_SMS_MSG_INVALID_PHONE'   => Tools::getValue('FLP_SMS_MSG_INVALID_PHONE', Configuration::get('FLP_SMS_MSG_INVALID_PHONE')),
+			'FLP_SMS_MSG_INVALID_OTP'     => Tools::getValue('FLP_SMS_MSG_INVALID_OTP', Configuration::get('FLP_SMS_MSG_INVALID_OTP')),
 		];
 	}
 
@@ -284,6 +320,10 @@ class fraudlabsprosmsverification extends Module
 			Configuration::updateValue('FLP_SMS_MSG_CONTENT', Tools::getValue('FLP_SMS_MSG_CONTENT'));
 			Configuration::updateValue('FLP_SMS_OTP_TIMEOUT', Tools::getValue('FLP_SMS_OTP_TIMEOUT'));
 			Configuration::updateValue('FLP_SMS_DEFAULT_CC', Tools::getValue('FLP_SMS_DEFAULT_CC'));
+			Configuration::updateValue('FLP_SMS_MSG_OTP_SUCCESS', Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS'));
+			Configuration::updateValue('FLP_SMS_MSG_OTP_FAIL', Tools::getValue('FLP_SMS_MSG_OTP_FAIL'));
+			Configuration::updateValue('FLP_SMS_MSG_INVALID_PHONE', Tools::getValue('FLP_SMS_MSG_INVALID_PHONE'));
+			Configuration::updateValue('FLP_SMS_MSG_INVALID_OTP', Tools::getValue('FLP_SMS_MSG_INVALID_OTP'));
 
 			if (!Tools::getValue('FLP_SMS_OTP_TIMEOUT')) {
 				Configuration::updateValue('FLP_SMS_OTP_TIMEOUT', '3600');
@@ -300,6 +340,14 @@ class fraudlabsprosmsverification extends Module
 				$this->_postErrors[] = $this->l('FraudLabs Pro API key is required.');
 			} else if (strpos(Tools::getValue('FLP_SMS_MSG_CONTENT'), '{otp}') == false) {
 				$this->_postErrors[] = $this->l('The {otp} tag must be included in the SMS Message Content.');
+			} else if (Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS') != '') {
+				if (strpos(Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS'), '[phone]') == false) {
+					$this->_postErrors[] = $this->l('The [phone] tag must be included in the OTP Sent Succesfully Message.');
+				}
+			} else if (Tools::getValue('FLP_SMS_MSG_OTP_FAIL') != '') {
+				if (strpos(Tools::getValue('FLP_SMS_MSG_OTP_FAIL'), '[phone]') == false) {
+					$this->_postErrors[] = $this->l('The [phone] tag must be included in the OTP Sent Failed Message.');
+				}
 			}
 		}
 	}

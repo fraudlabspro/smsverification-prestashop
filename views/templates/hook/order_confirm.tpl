@@ -14,10 +14,9 @@
 		<label for="phone_number" id="enter_phone_number">
 			<input type="text" class="field__input" style="width:100%;text-align:center;border:1px solid silver;" name="phone_number" id="phone_number" value="">
 		</label>
-		<span id="sms_phone_info" style="display:none;font-size:16px;"></span>
-		<!--input type="text" style="width:100%;text-align:center;display:none;border:1px solid silver;" class="page-width field__input" maxlength="6" name="sms_otp" id="sms_otp" value="" placeholder="Key in OTP here."-->
+		<span id="sms_phone_info" style="display:none;font-size:16px;margin-bottom:15px;"></span>
 		<div id="sms_otp" style="margin-top:5px; display:none;"><input type="text" name="sms_otp1" id="sms_otp1" value="" style="width:110px; background-color:white; border: none; box-shadow:none !important; font-family:Courier New, Courier, monospace !important; font-size:20px; display:inline-block;">&nbsp;&nbsp;-&nbsp;&nbsp;<input type="text" name="sms_otp2" id="sms_otp2" value="" placeholder="Enter OTP numbers" style="padding:9px 10px; font-size:17px; width:200px; display:inline-block;"></div>
-		<p id="resend_otp_text" style="display:none;">Don't receive the OTP code? <a href="javascript:;" name="resend_otp" id="resend_otp" value="Resend OTP" style="margin-right:5px;display:none;" >Resend</a></p>
+		<p id="resend_otp_text" style="display:none;">Didn't receive the OTP code? <a href="javascript:;" name="resend_otp" id="resend_otp" value="Resend OTP" style="margin-right:5px;display:none;" >Resend</a></p>
 		<div id="sms_section" style="margin-bottom:20px;"></div>
 		<input class="btn" type="button" name="submit_otp" id="submit_otp" value="Submit OTP" style="margin-right:5px;margin-bottom:10px;display:none;">
 		<input class="btn" type="button" name="get_otp" id="get_otp" value="Get OTP" style="margin-right:5px;margin-bottom:10px;"> 
@@ -39,6 +38,12 @@
 	jQuery(document).ready(function() {
 		var phoneNum;
 		var order_id = jQuery("#sms_order_id").val();
+		var msg_otp_success = "{$sms_msg_otp_success}";
+		msg_otp_success = msg_otp_success.split("[phone]");
+		var msg_otp_fail = "{$sms_msg_otp_fail}";
+		msg_otp_fail = msg_otp_fail.split("[phone]");
+		var msg_invalid_phone = "{$sms_msg_invalid_phone}";
+		var msg_invalid_otp = "{$sms_msg_invalid_otp}";
 
 		if (jQuery("#sms_phone_cc").length) {
 			defaultCc = jQuery("#sms_phone_cc").val();
@@ -62,7 +67,7 @@
 
 		jQuery("#get_otp").click(function(e) {
 			if (jQuery("#phone_number").val() == "") {
-				jQuery("#sms_err").html("Please enter a valid phone number.");
+				jQuery("#sms_err").html(msg_invalid_phone);
 				jQuery("#sms_err").show();
 				jQuery("#phone_number").focus();
 			}else if (!confirm("Send OTP to " + phoneNum.getNumber() + "?")) {
@@ -131,7 +136,7 @@
 
 		function sms_doOTP_success(data) {
 			if(data.indexOf("ERROR") == 0) {
-				jQuery("#sms_err").html("Error: Unable to send the SMS verification message to " + phoneNum.getNumber() + ".");
+				jQuery("#sms_err").html(msg_otp_fail[0] + phoneNum.getNumber() + msg_otp_fail[1]);
 				jQuery("#sms_err").show();
 			}
 			else if(data.indexOf("OK") == 0) {
@@ -142,7 +147,7 @@
 				jQuery("#submit_otp").css('display', 'inline-block');
 				jQuery("#sms_otp").show();
 				jQuery("#reset_pn").css('display', 'inline-block');
-				jQuery("#sms_phone_info").html("<p style=\"margin-bottom:7px;\">A SMS containing OTP (One Time Passcode) has been sent to " + phoneNum.getNumber() + "</p><p style=\"margin-bottom:40px;\">Please enter the 6 digits OTP value to complete the verification.</p>");
+				jQuery("#sms_phone_info").html(msg_otp_success[0] + phoneNum.getNumber() + msg_otp_success[1]);
 				jQuery("#sms_phone_info").show();
 				jQuery("#sms_info_display").hide();
 				jQuery("#enter_phone_number").hide();
@@ -153,7 +158,7 @@
 		}
 
 		function sms_doOTP_error() {
-			jQuery("#sms_err").html("Error: Unable to send the SMS verification message to " + phoneNum.getNumber() + ".");
+			jQuery("#sms_err").html(msg_otp_fail[0] + phoneNum.getNumber() + msg_otp_fail[1]);
 			jQuery("#sms_err").show();
 		}
 
@@ -175,7 +180,7 @@
 
 		function sms_checkOTP_success(data) {
 			if (data.indexOf("ERROR 601") == 0) {
-					jQuery("#sms_err").html("Error: Invalid OTP. Please enter the correct OTP.");
+					jQuery("#sms_err").html(msg_invalid_otp);
 					jQuery("#sms_err").show();
 			}
 			else if (data.indexOf("ERROR 600") == 0) {
