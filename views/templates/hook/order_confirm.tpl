@@ -1,6 +1,6 @@
 <div id="sms_box" class="page-width" style="text-align:center;background-color:#fff3cd;color:#8d6604;padding:1.5rem;font-size:1.5em;">
 	<div id='flp_box_link'>
-		<p style="color:#9b6927;margin-bottom:0;"><img src="https://www.fraudlabspro.com/images/icons/ico-warning.png" width="18"style="vertical-align:-2px;">You are required to verify your phone number via SMS verification. </p>
+		<p style="color:#9b6927;margin-bottom:0;"><img src="https://www.fraudlabspro.com/images/icons/ico-warning.png" width="18"style="vertical-align:-2px;"> {$sms_msg_sms_required}</p>
 		<input class="btn" type="button" style="margin-bottom:0;margin-right:5px;margin-top:10px;font-size:15px;" name="verify_flp_sms_inline" id="verify_flp_sms_inline" value="Verify your phone number" data-fancybox data-src="#flp-sms-verification" href="javascript:;">
 	</div>
 </div>

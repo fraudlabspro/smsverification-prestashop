@@ -12,7 +12,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$this->name = 'fraudlabsprosmsverification';
 		$this->tab = 'payment_security';
-		$this->version = '1.0.0';
+		$this->version = '1.1.1';
 		$this->author = 'FraudLabs Pro';
 		$this->controllers = ['payment', 'validation'];
 		$this->module_key = 'cdb22a61c7ec8d1f900f6c162ad96caa';
@@ -114,6 +114,7 @@ class fraudlabsprosmsverification extends Module
 			'sms_instruction' => (Configuration::get('FLP_SMS_VERIFICATION_INST')) ? Configuration::get('FLP_SMS_VERIFICATION_INST') : 'Please verify your phone number by completing the below SMS verification. Please enter your phone number (with country code) to receive the OTP message.',
 			'sms_cc' => $countries[Configuration::get('FLP_SMS_DEFAULT_CC')],
 			'sms_order_id' => $params['order']->id,
+			'sms_msg_sms_required' => (Configuration::get('FLP_SMS_MSG_SMS_REQUIRED')) ? Configuration::get('FLP_SMS_MSG_SMS_REQUIRED') : 'You are required to verify you phone number via SMS verification.',
 			'sms_msg_otp_success' => (Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')) ? Configuration::get('FLP_SMS_MSG_OTP_SUCCESS') : 'A SMS containing the OTP (One Time Passcode) has been sent to [phone]. Please enter the 6 digits OTP value to complete the verification.',
 			'sms_msg_otp_fail' => (Configuration::get('FLP_SMS_MSG_OTP_FAIL')) ? Configuration::get('FLP_SMS_MSG_OTP_FAIL') : 'Error: Unable to send the SMS verification message to [phone].',
 			'sms_msg_invalid_phone' => (Configuration::get('FLP_SMS_MSG_INVALID_PHONE')) ? Configuration::get('FLP_SMS_MSG_INVALID_PHONE') : 'Please enter a valid phone number.',
@@ -235,6 +236,13 @@ class fraudlabsprosmsverification extends Module
 					],
 					[
 						'type'     => 'textarea',
+						'label'    => $this->l('SMS Verification Required Message'),
+						'name'     => 'FLP_SMS_MSG_SMS_REQUIRED',
+						'desc'     => $this->l('Messages to show the user that the phone number verification via SMS verification is required.'),
+						'required' => false,
+					],
+					[
+						'type'     => 'textarea',
 						'label'    => $this->l('OTP Sent Succesfully Message'),
 						'name'     => 'FLP_SMS_MSG_OTP_SUCCESS',
 						'desc'     => $this->l('Messages to show the user when the OTP is sent successfully to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
@@ -301,6 +309,7 @@ class fraudlabsprosmsverification extends Module
 			'FLP_SMS_MSG_CONTENT'         => Tools::getValue('FLP_SMS_MSG_CONTENT', Configuration::get('FLP_SMS_MSG_CONTENT')),
 			'FLP_SMS_OTP_TIMEOUT'         => Tools::getValue('FLP_SMS_OTP_TIMEOUT', Configuration::get('FLP_SMS_OTP_TIMEOUT')),
 			'FLP_SMS_DEFAULT_CC'          => Tools::getValue('FLP_SMS_DEFAULT_CC', Configuration::get('FLP_SMS_DEFAULT_CC')),
+			'FLP_SMS_MSG_SMS_REQUIRED'    => Tools::getValue('FLP_SMS_MSG_SMS_REQUIRED', Configuration::get('FLP_SMS_MSG_SMS_REQUIRED')),
 			'FLP_SMS_MSG_OTP_SUCCESS'     => Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS', Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')),
 			'FLP_SMS_MSG_OTP_FAIL'        => Tools::getValue('FLP_SMS_MSG_OTP_FAIL', Configuration::get('FLP_SMS_MSG_OTP_FAIL')),
 			'FLP_SMS_MSG_INVALID_PHONE'   => Tools::getValue('FLP_SMS_MSG_INVALID_PHONE', Configuration::get('FLP_SMS_MSG_INVALID_PHONE')),
@@ -320,6 +329,7 @@ class fraudlabsprosmsverification extends Module
 			Configuration::updateValue('FLP_SMS_MSG_CONTENT', Tools::getValue('FLP_SMS_MSG_CONTENT'));
 			Configuration::updateValue('FLP_SMS_OTP_TIMEOUT', Tools::getValue('FLP_SMS_OTP_TIMEOUT'));
 			Configuration::updateValue('FLP_SMS_DEFAULT_CC', Tools::getValue('FLP_SMS_DEFAULT_CC'));
+			Configuration::updateValue('FLP_SMS_MSG_SMS_REQUIRED', Tools::getValue('FLP_SMS_MSG_SMS_REQUIRED'));
 			Configuration::updateValue('FLP_SMS_MSG_OTP_SUCCESS', Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS'));
 			Configuration::updateValue('FLP_SMS_MSG_OTP_FAIL', Tools::getValue('FLP_SMS_MSG_OTP_FAIL'));
 			Configuration::updateValue('FLP_SMS_MSG_INVALID_PHONE', Tools::getValue('FLP_SMS_MSG_INVALID_PHONE'));
