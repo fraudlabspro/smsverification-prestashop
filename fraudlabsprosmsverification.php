@@ -233,6 +233,7 @@ class fraudlabsprosmsverification extends Module
 							'id'    => 'id_country',
 							'name'  => 'name',
 						],
+						'desc'     => $this->l('Please visit https://www.fraudlabspro.com/developer/reference/country-codes-sms to learn more about the supported countries.'),
 					],
 					[
 						'type'     => 'textarea',
