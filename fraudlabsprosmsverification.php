@@ -12,7 +12,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$this->name = 'fraudlabsprosmsverification';
 		$this->tab = 'payment_security';
-		$this->version = '1.1.1';
+		$this->version = '1.2.0';
 		$this->author = 'FraudLabs Pro';
 		$this->controllers = ['payment', 'validation'];
 		$this->module_key = 'cdb22a61c7ec8d1f900f6c162ad96caa';
@@ -147,13 +147,13 @@ class fraudlabsprosmsverification extends Module
 							'id'   => 'id',
 							'name' => 'name',
 						],
-						'desc'     => $this->l('Please note that you have to install FraudLabs Pro Fraud Prevention module (https://github.com/fraudlabspro/prestashop/releases/latest) before enabling this module.'),
+						'desc'	 => $this->l('Please note that you have to install FraudLabs Pro Fraud Prevention module (https://github.com/fraudlabspro/prestashop/releases/latest) before enabling this module.'),
 					],
 					[
-						'type'     => 'text',
-						'label'    => $this->l('API Key'),
-						'name'     => 'FLP_SMS_LICENSE_KEY',
-						'desc'     => $this->l('Please sign up for a free Micro plan at http://www.fraudlabspro.com/sign-up, if you do not have the API key.'),
+						'type'	 => 'text',
+						'label'	=> $this->l('API Key'),
+						'name'	 => 'FLP_SMS_LICENSE_KEY',
+						'desc'	 => $this->l('Please sign up for a free Micro plan at http://www.fraudlabspro.com/sign-up, if you do not have the API key.'),
 						'required' => true,
 					],
 					[
@@ -200,74 +200,74 @@ class fraudlabsprosmsverification extends Module
 							'id'   => 'id',
 							'name' => 'name',
 						],
-						'desc'     => $this->l('Setting to trigger the SMS Verification based on the status of FraudLabs Pro returned.'),
+						'desc'	 => $this->l('Setting to trigger the SMS Verification based on the status of FraudLabs Pro returned.'),
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('SMS Verification Instruction'),
-						'name'     => 'FLP_SMS_VERIFICATION_INST',
-						'desc'     => $this->l('Messages to brief the user about this SMS verification and what needs to be done to complete the verification. Leave it blank for default SMS verification instruction.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('SMS Verification Instruction'),
+						'name'	 => 'FLP_SMS_VERIFICATION_INST',
+						'desc'	 => $this->l('Messages to brief the user about this SMS verification and what needs to be done to complete the verification. Leave it blank for default SMS verification instruction.'),
 						'required' => false,
 					],
 					[
-						'type'     => 'text',
-						'label'    => $this->l('SMS Message Content'),
-						'name'     => 'FLP_SMS_MSG_CONTENT',
-						'desc'     => $this->l('The SMS text message to be sent to the user\'s mobile phone. You must include the {otp} tag which will contain the auto-generated OTP code.'),
+						'type'	 => 'text',
+						'label'	=> $this->l('SMS Message Content'),
+						'name'	 => 'FLP_SMS_MSG_CONTENT',
+						'desc'	 => $this->l('The SMS text message to be sent to the user\'s mobile phone. You must include the {otp} tag which will contain the auto-generated OTP code.'),
 						'required' => true,
 					],
 					[
-						'type'     => 'text',
-						'label'    => $this->l('SMS OTP Timeout'),
-						'name'     => 'FLP_SMS_OTP_TIMEOUT',
-						'desc'     => $this->l('OTP validtity timeout. The default value is 3600 seconds (1 hour) and the maximum value is 86400 seconds (24 hours).'),
+						'type'	 => 'text',
+						'label'	=> $this->l('SMS OTP Timeout'),
+						'name'	 => 'FLP_SMS_OTP_TIMEOUT',
+						'desc'	 => $this->l('OTP validtity timeout. The default value is 3600 seconds (1 hour) and the maximum value is 86400 seconds (24 hours).'),
 						'required' => false,
 					],
 					[
-						'type'     => 'select',
-						'label'    => $this->l('Default Country Code For SMS Sending'),
-						'name'     => 'FLP_SMS_DEFAULT_CC',
+						'type'	 => 'select',
+						'label'	=> $this->l('Default Country Code For SMS Sending'),
+						'name'	 => 'FLP_SMS_DEFAULT_CC',
 						'required' => false,
 						'options'  => [
 							'query' => Country::getCountries((int)$this->context->language->id, false),
-							'id'    => 'id_country',
+							'id'	=> 'id_country',
 							'name'  => 'name',
 						],
-						'desc'     => $this->l('Please visit https://www.fraudlabspro.com/developer/reference/country-codes-sms to learn more about the supported countries.'),
+						'desc'	 => $this->l('Please visit https://www.fraudlabspro.com/developer/reference/country-codes-sms to learn more about the supported countries.'),
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('SMS Verification Required Message'),
-						'name'     => 'FLP_SMS_MSG_SMS_REQUIRED',
-						'desc'     => $this->l('Messages to show the user that the phone number verification via SMS verification is required.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('SMS Verification Required Message'),
+						'name'	 => 'FLP_SMS_MSG_SMS_REQUIRED',
+						'desc'	 => $this->l('Messages to show the user that the phone number verification via SMS verification is required.'),
 						'required' => false,
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('OTP Sent Succesfully Message'),
-						'name'     => 'FLP_SMS_MSG_OTP_SUCCESS',
-						'desc'     => $this->l('Messages to show the user when the OTP is sent successfully to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('OTP Sent Succesfully Message'),
+						'name'	 => 'FLP_SMS_MSG_OTP_SUCCESS',
+						'desc'	 => $this->l('Messages to show the user when the OTP is sent successfully to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
 						'required' => false,
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('OTP Sent Failed Message'),
-						'name'     => 'FLP_SMS_MSG_OTP_FAIL',
-						'desc'     => $this->l('Messages to show the user when the OTP is sent failed to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('OTP Sent Failed Message'),
+						'name'	 => 'FLP_SMS_MSG_OTP_FAIL',
+						'desc'	 => $this->l('Messages to show the user when the OTP is sent failed to the phone number. You must include the [phone] tag which will be replaced by the user\'s phone number.'),
 						'required' => false,
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('Invalid Phone Number Message'),
-						'name'     => 'FLP_SMS_MSG_INVALID_PHONE',
-						'desc'     => $this->l('Messages to show the user when invalid phone number is entered.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('Invalid Phone Number Message'),
+						'name'	 => 'FLP_SMS_MSG_INVALID_PHONE',
+						'desc'	 => $this->l('Messages to show the user when invalid phone number is entered.'),
 						'required' => false,
 					],
 					[
-						'type'     => 'textarea',
-						'label'    => $this->l('Invalid OTP Message'),
-						'name'     => 'FLP_SMS_MSG_INVALID_OTP',
-						'desc'     => $this->l('Messages to show the user when invalid OTP is entered.'),
+						'type'	 => 'textarea',
+						'label'	=> $this->l('Invalid OTP Message'),
+						'name'	 => 'FLP_SMS_MSG_INVALID_OTP',
+						'desc'	 => $this->l('Messages to show the user when invalid OTP is entered.'),
 						'required' => false,
 					],
 				],
@@ -291,7 +291,7 @@ class fraudlabsprosmsverification extends Module
 		$helper->token = Tools::getAdminTokenLite('AdminModules');
 		$helper->tpl_vars = [
 			'fields_value' => $this->getConfigFieldsValues(),
-			'languages'    => $this->context->controller->getLanguages(),
+			'languages'	=> $this->context->controller->getLanguages(),
 			'id_language'  => $this->context->language->id,
 		];
 
@@ -301,20 +301,20 @@ class fraudlabsprosmsverification extends Module
 	public function getConfigFieldsValues()
 	{
 		return [
-			'FLP_SMS_ENABLED_on'          => Tools::getValue('FLP_SMS_ENABLED_on', Configuration::get('FLP_SMS_ENABLED')),
-			'FLP_SMS_LICENSE_KEY'         => Tools::getValue('FLP_SMS_LICENSE_KEY', Configuration::get('FLP_SMS_LICENSE_KEY')),
-			'FLP_SMS_APPROVE_on'          => Tools::getValue('FLP_SMS_APPROVE_on', Configuration::get('FLP_SMS_APPROVE')),
-			'FLP_SMS_REVIEW_on'           => Tools::getValue('FLP_SMS_REVIEW_on', Configuration::get('FLP_SMS_REVIEW')),
-			'FLP_SMS_REJECT_on'           => Tools::getValue('FLP_SMS_REJECT_on', Configuration::get('FLP_SMS_REJECT')),
+			'FLP_SMS_ENABLED_on'		  => Tools::getValue('FLP_SMS_ENABLED_on', Configuration::get('FLP_SMS_ENABLED')),
+			'FLP_SMS_LICENSE_KEY'		 => Tools::getValue('FLP_SMS_LICENSE_KEY', Configuration::get('FLP_SMS_LICENSE_KEY')),
+			'FLP_SMS_APPROVE_on'		  => Tools::getValue('FLP_SMS_APPROVE_on', Configuration::get('FLP_SMS_APPROVE')),
+			'FLP_SMS_REVIEW_on'		   => Tools::getValue('FLP_SMS_REVIEW_on', Configuration::get('FLP_SMS_REVIEW')),
+			'FLP_SMS_REJECT_on'		   => Tools::getValue('FLP_SMS_REJECT_on', Configuration::get('FLP_SMS_REJECT')),
 			'FLP_SMS_VERIFICATION_INST'   => Tools::getValue('FLP_SMS_VERIFICATION_INST', Configuration::get('FLP_SMS_VERIFICATION_INST')),
-			'FLP_SMS_MSG_CONTENT'         => Tools::getValue('FLP_SMS_MSG_CONTENT', Configuration::get('FLP_SMS_MSG_CONTENT')),
-			'FLP_SMS_OTP_TIMEOUT'         => Tools::getValue('FLP_SMS_OTP_TIMEOUT', Configuration::get('FLP_SMS_OTP_TIMEOUT')),
-			'FLP_SMS_DEFAULT_CC'          => Tools::getValue('FLP_SMS_DEFAULT_CC', Configuration::get('FLP_SMS_DEFAULT_CC')),
-			'FLP_SMS_MSG_SMS_REQUIRED'    => Tools::getValue('FLP_SMS_MSG_SMS_REQUIRED', Configuration::get('FLP_SMS_MSG_SMS_REQUIRED')),
-			'FLP_SMS_MSG_OTP_SUCCESS'     => Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS', Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')),
-			'FLP_SMS_MSG_OTP_FAIL'        => Tools::getValue('FLP_SMS_MSG_OTP_FAIL', Configuration::get('FLP_SMS_MSG_OTP_FAIL')),
+			'FLP_SMS_MSG_CONTENT'		 => Tools::getValue('FLP_SMS_MSG_CONTENT', Configuration::get('FLP_SMS_MSG_CONTENT')),
+			'FLP_SMS_OTP_TIMEOUT'		 => Tools::getValue('FLP_SMS_OTP_TIMEOUT', Configuration::get('FLP_SMS_OTP_TIMEOUT')),
+			'FLP_SMS_DEFAULT_CC'		  => Tools::getValue('FLP_SMS_DEFAULT_CC', Configuration::get('FLP_SMS_DEFAULT_CC')),
+			'FLP_SMS_MSG_SMS_REQUIRED'	=> Tools::getValue('FLP_SMS_MSG_SMS_REQUIRED', Configuration::get('FLP_SMS_MSG_SMS_REQUIRED')),
+			'FLP_SMS_MSG_OTP_SUCCESS'	 => Tools::getValue('FLP_SMS_MSG_OTP_SUCCESS', Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')),
+			'FLP_SMS_MSG_OTP_FAIL'		=> Tools::getValue('FLP_SMS_MSG_OTP_FAIL', Configuration::get('FLP_SMS_MSG_OTP_FAIL')),
 			'FLP_SMS_MSG_INVALID_PHONE'   => Tools::getValue('FLP_SMS_MSG_INVALID_PHONE', Configuration::get('FLP_SMS_MSG_INVALID_PHONE')),
-			'FLP_SMS_MSG_INVALID_OTP'     => Tools::getValue('FLP_SMS_MSG_INVALID_OTP', Configuration::get('FLP_SMS_MSG_INVALID_OTP')),
+			'FLP_SMS_MSG_INVALID_OTP'	 => Tools::getValue('FLP_SMS_MSG_INVALID_OTP', Configuration::get('FLP_SMS_MSG_INVALID_OTP')),
 		];
 	}
 
@@ -367,6 +367,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$apiKey = Configuration::get('FLP_SMS_LICENSE_KEY');
 		$params['format'] = 'json';
+		$params['key'] = $apiKey;
 		$params['tel'] = trim($tel);
 		if(strpos($params['tel'], '+') !== 0)
 			$params['tel'] = '+' . $params['tel'];
@@ -375,37 +376,20 @@ class fraudlabsprosmsverification extends Module
 		$params['tel_cc'] = $telCc;
 		$params['otp_timeout'] = (Configuration::get('FLP_SMS_OTP_TIMEOUT')) ? Configuration::get('FLP_SMS_OTP_TIMEOUT') : 3600;
 		$params['source'] = 'prestashop';
-		$url = 'https://api.fraudlabspro.com/v1/verification/send';
 
-		$query = '';
+		$request = $this->post('https://api.fraudlabspro.com/v2/verification/send', $params);
 
-		foreach($params as $key=>$value){
-			$query .= '&' . $key . '=' . rawurlencode($value);
-		}
+		if ($request) {
+			$data = json_decode($request);
 
-		$url = $url . '?key=' . $apiKey . $query;
-
-		$result = file_get_contents($url);
-
-		// Network error, wait 2 seconds for next retry
-		if(!$result){
-			for($i = 0; $i < 3; ++$i){
-				sleep(2);
-				$result = file_get_contents($url);
+			if (isset($data->error->error_message)) {
+				$rtn = 'ERROR 600-' . $data->error->error_message;
+			} else {
+				$rtn = 'OK' . $data->tran_id . $data->otp_char;
 			}
-		}
-
-		// Still having network issue after 3 retries
-		if(!$result) {
-			$rtn = 'ERROR 500';
-			return $rtn;
-		}
-
-		$data = json_decode($result);
-		if(trim($data->error) != ''){
-			$rtn = 'ERROR 600-' . $data->error;
 		} else {
-			$rtn = 'OK' . $data->tran_id . $data->otp_char;
+			// Network error
+			$rtn = 'ERROR 500';
 		}
 		return $rtn;
 	}
@@ -414,49 +398,58 @@ class fraudlabsprosmsverification extends Module
 	{
 		$apiKey = Configuration::get('FLP_SMS_LICENSE_KEY');
 		$params['format'] = 'json';
+		$params['key'] = $apiKey;
 		$params['otp'] = $otp;
 		$params['tran_id'] = $tranId;
-		$url = 'https://api.fraudlabspro.com/v1/verification/result';
 
-		$query = '';
+		$request = $this->post('https://api.fraudlabspro.com/v2/verification/result', $params);
 
-		foreach($params as $key=>$value){
-			$query .= '&' . $key . '=' . rawurlencode($value);
-		}
+		if ($request) {
+			$data = json_decode($request);
 
-		$url = $url . '?key=' . $apiKey . $query;
-
-		$result = file_get_contents($url);
-
-		// Network error, wait 2 seconds for next retry
-		if(!$result){
-			for($i = 0; $i < 3; ++$i){
-				sleep( 2 );
-				$result = file_get_contents($url);
-			}
-		}
-
-		// Still having network issue after 3 retries
-		if(!$result) {
-			$rtn = 'ERROR 500';
-			return $rtn;
-		}
-
-		// Get the HTTP response
-		$data = json_decode($result);
-
-		if (trim($data->error) != '') {
-			if ($data->error == 'Invalid OTP.') {
-				$rtn = 'ERROR 601-' . $data->error;
+			if (isset($data->error->error_message)) {
+				if ($data->error->error_message == 'INVALID OTP') {
+					$rtn = 'ERROR 601-' . $data->error->error_message;
+				} else {
+					$rtn = 'ERROR 600-' . $data->error->error_message;
+				}
 			} else {
-				$rtn = 'ERROR 600-' . $data->error;
+				$rtn = 'OK';
+
+				Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . $tel . '", "VERIFIED", "' . Configuration::get('FLP_SMS_LICENSE_KEY') . '")');
+				Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . Tools::getValue('tel') . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
 			}
 		} else {
-			$rtn = 'OK';
-
-			Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . $tel . '", "VERIFIED", "' . Configuration::get('FLP_SMS_LICENSE_KEY') . '")');
-			Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . Tools::getValue('tel') . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
+			// Network error
+			$rtn = 'ERROR 500';
 		}
 		return $rtn;
+	}
+
+	private function post($url, $fields = '')
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+		curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
+		curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+		if (!empty($fields)) {
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, (is_array($fields)) ? http_build_query($fields) : $fields);
+		}
+
+		$response = curl_exec($ch);
+
+		if (!curl_errno($ch)) {
+			return $response;
+		}
+
+		return false;
 	}
 }

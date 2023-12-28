@@ -1,6 +1,6 @@
 {
   "name": "fraudlabspro/smsverification-prestashop",
-  "version": "v1.1.1",
+  "version": "v1.2.0",
   "description": "FraudLabs Pro SMS Verification extension for PrestaShop that help merchants to authenticate the client's identity by sending them a SMS for verification.",
   "type": "prestashop-module",
   "keywords": [
