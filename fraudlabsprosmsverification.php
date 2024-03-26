@@ -12,7 +12,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$this->name = 'fraudlabsprosmsverification';
 		$this->tab = 'payment_security';
-		$this->version = '1.2.0';
+		$this->version = '1.2.1';
 		$this->author = 'FraudLabs Pro';
 		$this->controllers = ['payment', 'validation'];
 		$this->module_key = 'cdb22a61c7ec8d1f900f6c162ad96caa';
@@ -398,30 +398,48 @@ class fraudlabsprosmsverification extends Module
 	{
 		$apiKey = Configuration::get('FLP_SMS_LICENSE_KEY');
 		$params['format'] = 'json';
-		$params['key'] = $apiKey;
 		$params['otp'] = $otp;
 		$params['tran_id'] = $tranId;
+		$url = 'https://api.fraudlabspro.com/v2/verification/result';
 
-		$request = $this->post('https://api.fraudlabspro.com/v2/verification/result', $params);
+		$query = '';
 
-		if ($request) {
-			$data = json_decode($request);
+		foreach($params as $key=>$value){
+			$query .= '&' . $key . '=' . rawurlencode($value);
+		}
 
-			if (isset($data->error->error_message)) {
-				if ($data->error->error_message == 'INVALID OTP') {
-					$rtn = 'ERROR 601-' . $data->error->error_message;
-				} else {
-					$rtn = 'ERROR 600-' . $data->error->error_message;
-				}
+		$url = $url . '?key=' . $apiKey . $query;
+
+		$result = file_get_contents($url);
+
+		// Network error, wait 2 seconds for next retry
+		if(!$result){
+			for($i = 0; $i < 3; ++$i){
+				sleep( 2 );
+				$result = file_get_contents($url);
+			}
+		}
+
+		// Still having network issue after 3 retries
+		if(!$result) {
+			$rtn = 'ERROR 500';
+			return $rtn;
+		}
+
+		// Get the HTTP response
+		$data = json_decode($result);
+
+		if (isset($data->error->error_message)) {
+			if ($data->error->error_message == 'INVALID OTP') {
+				$rtn = 'ERROR 601-' . $data->error->error_message;
 			} else {
-				$rtn = 'OK';
-
-				Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . $tel . '", "VERIFIED", "' . Configuration::get('FLP_SMS_LICENSE_KEY') . '")');
-				Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . Tools::getValue('tel') . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
+				$rtn = 'ERROR 600-' . $data->error->error_message;
 			}
 		} else {
-			// Network error
-			$rtn = 'ERROR 500';
+			$rtn = 'OK';
+
+			Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . $tel . '", "VERIFIED", "' . Configuration::get('FLP_SMS_LICENSE_KEY') . '")');
+			Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . Tools::getValue('tel') . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
 		}
 		return $rtn;
 	}
@@ -430,7 +448,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_FAILONERROR, false);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
