@@ -2,7 +2,7 @@
 <module>
     <name>fraudlabsprosmsverification</name>
     <displayName><![CDATA[FraudLabs Pro SMS Verification]]></displayName>
-    <version><![CDATA[1.2.1]]></version>
+    <version><![CDATA[1.2.2]]></version>
     <description><![CDATA[FraudLabs Pro SMS Verification extension that help merchants to authenticate the client's identity by sending them a SMS for verification.]]></description>
     <author><![CDATA[FraudLabs Pro]]></author>
     <tab><![CDATA[payment_security]]></tab>

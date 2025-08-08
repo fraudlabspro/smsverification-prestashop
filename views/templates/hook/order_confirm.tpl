@@ -38,12 +38,12 @@
 	jQuery(document).ready(function() {
 		var phoneNum;
 		var order_id = jQuery("#sms_order_id").val();
-		var msg_otp_success = "{$sms_msg_otp_success}";
+		var msg_otp_success = {$sms_msg_otp_success};
 		msg_otp_success = msg_otp_success.split("[phone]");
-		var msg_otp_fail = "{$sms_msg_otp_fail}";
+		var msg_otp_fail = {$sms_msg_otp_fail};
 		msg_otp_fail = msg_otp_fail.split("[phone]");
-		var msg_invalid_phone = "{$sms_msg_invalid_phone}";
-		var msg_invalid_otp = "{$sms_msg_invalid_otp}";
+		var msg_invalid_phone = {$sms_msg_invalid_phone};
+		var msg_invalid_otp = {$sms_msg_invalid_otp};
 
 		if (jQuery("#sms_phone_cc").length) {
 			defaultCc = jQuery("#sms_phone_cc").val();

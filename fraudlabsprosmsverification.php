@@ -12,7 +12,7 @@ class fraudlabsprosmsverification extends Module
 	{
 		$this->name = 'fraudlabsprosmsverification';
 		$this->tab = 'payment_security';
-		$this->version = '1.2.1';
+		$this->version = '1.2.2';
 		$this->author = 'FraudLabs Pro';
 		$this->controllers = ['payment', 'validation'];
 		$this->module_key = 'cdb22a61c7ec8d1f900f6c162ad96caa';
@@ -115,10 +115,10 @@ class fraudlabsprosmsverification extends Module
 			'sms_cc' => $countries[Configuration::get('FLP_SMS_DEFAULT_CC')],
 			'sms_order_id' => $params['order']->id,
 			'sms_msg_sms_required' => (Configuration::get('FLP_SMS_MSG_SMS_REQUIRED')) ? Configuration::get('FLP_SMS_MSG_SMS_REQUIRED') : 'You are required to verify you phone number via SMS verification.',
-			'sms_msg_otp_success' => (Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')) ? Configuration::get('FLP_SMS_MSG_OTP_SUCCESS') : 'A SMS containing the OTP (One Time Passcode) has been sent to [phone]. Please enter the 6 digits OTP value to complete the verification.',
-			'sms_msg_otp_fail' => (Configuration::get('FLP_SMS_MSG_OTP_FAIL')) ? Configuration::get('FLP_SMS_MSG_OTP_FAIL') : 'Error: Unable to send the SMS verification message to [phone].',
-			'sms_msg_invalid_phone' => (Configuration::get('FLP_SMS_MSG_INVALID_PHONE')) ? Configuration::get('FLP_SMS_MSG_INVALID_PHONE') : 'Please enter a valid phone number.',
-			'sms_msg_invalid_otp' => (Configuration::get('FLP_SMS_MSG_INVALID_OTP')) ? Configuration::get('FLP_SMS_MSG_INVALID_OTP') : 'Error: Invalid OTP. Please enter the correct OTP.',
+			'sms_msg_otp_success' => json_encode((Configuration::get('FLP_SMS_MSG_OTP_SUCCESS')) ? Configuration::get('FLP_SMS_MSG_OTP_SUCCESS') : 'A SMS containing the OTP (One Time Passcode) has been sent to [phone]. Please enter the 6 digits OTP value to complete the verification.'),
+			'sms_msg_otp_fail' => json_encode((Configuration::get('FLP_SMS_MSG_OTP_FAIL')) ? Configuration::get('FLP_SMS_MSG_OTP_FAIL') : 'Error: Unable to send the SMS verification message to [phone].'),
+			'sms_msg_invalid_phone' => json_encode((Configuration::get('FLP_SMS_MSG_INVALID_PHONE')) ? Configuration::get('FLP_SMS_MSG_INVALID_PHONE') : 'Please enter a valid phone number.'),
+			'sms_msg_invalid_otp' => json_encode((Configuration::get('FLP_SMS_MSG_INVALID_OTP')) ? Configuration::get('FLP_SMS_MSG_INVALID_OTP') : 'Error: Invalid OTP. Please enter the correct OTP.'),
 		]);
 
 		return $this->display(__FILE__, 'order_confirm.tpl');
@@ -438,8 +438,8 @@ class fraudlabsprosmsverification extends Module
 		} else {
 			$rtn = 'OK';
 
-			Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . $tel . '", "VERIFIED", "' . Configuration::get('FLP_SMS_LICENSE_KEY') . '")');
-			Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . Tools::getValue('tel') . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
+			Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'fraudlabsprosmsverification` (`id_order`, `fraudlabspro_sms_phone`, `fraudlabspro_sms_status`, `api_key`) VALUES ("' . (int)$orderId . '", "' . pSQL($tel) . '", "VERIFIED", "' . pSQL(Configuration::get('FLP_SMS_LICENSE_KEY')) . '")');
+			Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'orders_fraudlabspro` SET is_phone_verified="' . pSQL(Tools::getValue('tel')) . ' verified" WHERE id_order=' . (int)$orderId . ' LIMIT 1');
 		}
 		return $rtn;
 	}
