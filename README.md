@@ -2,15 +2,13 @@
 
 FraudLabs Pro SMS Verification helps you to verify the user's mobile phone number by using the SMS verification technology. It triggers SMS verification based on the FraudLabs Pro status that you configured which will happen after the checkout process. The system will send a SMS message containing the OTP (One-Time-Passcode) to the given mobile phone number. And, the buyer is required to enter the correct OTP into the web page for verification. This SMS verification is an effective method to authenticate the buyer's identity as the phone number is a strong identier that is very difficult to temper with.
 
-Please note that you have to install [latest **FraudLabs Pro**](https://github.com/fraudlabspro/prestashop/releases/latest) module before enabling this module.
+### Getting Started
 
-### Easy to setup
+**Prerequisite:** Install the [latest FraudLabs Pro module](https://github.com/fraudlabspro/prestashop/releases/latest) before enabling this module.
 
-The setup is simple and only takes a few minutes. You just need to install the free FraudLabs Pro SMS Verification module, enter the API key and configure the settings.
+**Get A Free API Key:** [Sign up for a free API key](https://www.fraudlabspro.com/checkout-micro) and receive 10 free SMS credits to try SMS verification.
 
-### More Information
-
-Sign up for a Free license key at https://www.fraudlabspro.com/sign-up. You will have free 10 SMS credits for you to start using the SMS verification.
+**Setup:** Setup takes just a few minutes. Install the free FraudLabs Pro SMS Verification module, enter your API key, and configure the settings. 
 
 ### Installation
 
@@ -24,5 +22,5 @@ Sign up for a Free license key at https://www.fraudlabspro.com/sign-up. You will
 8. Click on the **Install** button to install the module.
 9. Once successfully installed, click on **Configure** link.
 
-#### License & Copyrights
+### License & Copyrights
 This module is licensed under MIT and copyrighted to FraudLabsPro.com
